@@ -20,7 +20,7 @@ public class MapPublisher<I, O> implements Flow.Publisher<O> {
         mapper.subscribe(subscriber);
     }
 
-    class Mapper implements Flow.Processor<I, O>, Flow.Subscription {
+    class Mapper implements Flow.Processor<I, O> {
 
         private Flow.Subscriber<? super O> subscriber;
         private Flow.Subscription subscription;
@@ -34,7 +34,7 @@ public class MapPublisher<I, O> implements Flow.Publisher<O> {
         @Override
         public void onSubscribe(Flow.Subscription subscription) {
             this.subscription = subscription;
-            subscriber.onSubscribe(this);
+            subscriber.onSubscribe(subscription);
         }
 
         @Override
@@ -50,16 +50,6 @@ public class MapPublisher<I, O> implements Flow.Publisher<O> {
         @Override
         public void onComplete() {
             subscriber.onComplete();
-        }
-
-        @Override
-        public void request(long n) {
-            subscription.request(n);
-        }
-
-        @Override
-        public void cancel() {
-            subscription.cancel();
         }
     }
 
