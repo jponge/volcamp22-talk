@@ -12,36 +12,36 @@ import io.vertx.core.http.HttpServerRequest;
 
 public class FortunesService {
 
-    private static String[] fortunes;
-    private static Random random = new Random();
-    
-    private static Vertx vertx = Vertx.vertx();
+  private static String[] fortunes;
+  private static Random random = new Random();
 
-    public static void main(String... args) throws Throwable {
-        System.out.println("🚀 Starting");
+  private static Vertx vertx = Vertx.vertx();
 
-        // Fortunes stuff
-        fortunes = Files.readString(Path.of("bmc-fortunes", "fortunes"), StandardCharsets.UTF_8).split("\\n%\\n");
+  public static void main(String... args) throws Throwable {
+    System.out.println("🚀 Starting");
 
-        // Vert.x server
-        vertx.createHttpServer()
-                .requestHandler(FortunesService::handleRequest)
-                .listen(3000)
-                .onSuccess(ok -> System.out.println("✅ Ready"))
-                .onFailure(Throwable::printStackTrace);
-    }
+    // Fortunes stuff
+    fortunes = Files.readString(Path.of("bmc-fortunes", "fortunes"), StandardCharsets.UTF_8).split("\\n%\\n");
 
-    static void handleRequest(HttpServerRequest req) {
-        
-        int index = random.nextInt(fortunes.length);
-        String fortune = fortunes[index];
+    // Vert.x server
+    vertx.createHttpServer()
+        .requestHandler(FortunesService::handleRequest)
+        .listen(3000)
+        .onSuccess(ok -> System.out.println("✅ Ready"))
+        .onFailure(Throwable::printStackTrace);
+  }
 
-        String threadName = Thread.currentThread().getName();
-        System.out.println("[" + threadName + "] serving fortune #" + index);
-        
-        req.response()
-                .putHeader("Content-Type", "text/plain")
-                .putHeader("Fortune-Index", String.valueOf(index))
-                .end(fortune);   
-    }
+  static void handleRequest(HttpServerRequest req) {
+
+    int index = random.nextInt(fortunes.length);
+    String fortune = fortunes[index];
+
+    String threadName = Thread.currentThread().getName();
+    System.out.println("[" + threadName + "] serving fortune #" + index);
+
+    req.response()
+        .putHeader("Content-Type", "text/plain")
+        .putHeader("Fortune-Index", String.valueOf(index))
+        .end(fortune);
+  }
 }

@@ -12,14 +12,14 @@ import javax.ws.rs.core.Response;
 @RegisterRestClient(configKey = "fortunes-api")
 public interface FortunesReactiveClient {
 
-    @GET
-    Uni<Response> fetch();
+  @GET
+  Uni<Response> fetch();
 
-    default Uni<Fortune> fetchFortune() {
-        return fetch().onItem().transform(response -> {
-            var index = Integer.valueOf(response.getHeaderString("Fortune-Index"));
-            var text = response.readEntity(String.class);
-            return new Fortune(index, text);
-        });
-    }
+  default Uni<Fortune> fetchFortune() {
+    return fetch().onItem().transform(response -> {
+      var index = Integer.valueOf(response.getHeaderString("Fortune-Index"));
+      var text = response.readEntity(String.class);
+      return new Fortune(index, text);
+    });
+  }
 }

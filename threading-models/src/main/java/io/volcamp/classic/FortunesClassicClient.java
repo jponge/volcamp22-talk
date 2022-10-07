@@ -11,13 +11,13 @@ import javax.ws.rs.core.Response;
 @RegisterRestClient(configKey = "fortunes-api")
 public interface FortunesClassicClient {
 
-    @GET
-    Response fetch();
+  @GET
+  Response fetch();
 
-    default Fortune fetchFortune() {
-        Response response = fetch();
-        var index = Integer.valueOf(response.getHeaderString("Fortune-Index"));
-        var text = response.readEntity(String.class);
-        return new Fortune(index, text);
-    }
+  default Fortune fetchFortune() {
+    Response response = fetch();
+    var index = Integer.valueOf(response.getHeaderString("Fortune-Index"));
+    var text = response.readEntity(String.class);
+    return new Fortune(index, text);
+  }
 }

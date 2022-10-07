@@ -15,25 +15,25 @@ import javax.ws.rs.core.MediaType;
 @Path("/reactive")
 public class ReactiveAPI {
 
-    private static final Logger logger = LoggerFactory.getLogger(ReactiveAPI.class);
+  private static final Logger logger = LoggerFactory.getLogger(ReactiveAPI.class);
 
-    @RestClient
-    FortunesReactiveClient client;
+  @RestClient
+  FortunesReactiveClient client;
 
-    @GET
-    public Uni<Fortune> fetchOne() {
-        logger.info("Fetch one fortune (reactive)");
-        return client.fetchFortune();
-    }
+  @GET
+  public Uni<Fortune> fetchOne() {
+    logger.info("Fetch one fortune (reactive)");
+    return client.fetchFortune();
+  }
 
-    @GET
-    @Path("/stream")
-    @Produces(MediaType.SERVER_SENT_EVENTS)
-    public Multi<Fortune> stream() {
-        logger.info("Starting streaming (reactive)");
+  @GET
+  @Path("/stream")
+  @Produces(MediaType.SERVER_SENT_EVENTS)
+  public Multi<Fortune> stream() {
+    logger.info("Starting streaming (reactive)");
 
-        return fetchOne().repeat().atMost(50)
-                .onItem().invoke(() -> logger.info("Sending event (reactive)"))
-                .onCompletion().invoke(() -> logger.info("Stopped streaming (reactive)"));
-    }
+    return fetchOne().repeat().atMost(50)
+      .onItem().invoke(() -> logger.info("Sending event (reactive)"))
+      .onCompletion().invoke(() -> logger.info("Stopped streaming (reactive)"));
+  }
 }
