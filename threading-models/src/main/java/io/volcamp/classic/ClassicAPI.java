@@ -29,24 +29,24 @@ public class ClassicAPI {
     return client.fetchFortune();
   }
 
-  @GET
-  @Path("/stream")
-  @Produces(MediaType.SERVER_SENT_EVENTS)
-  public void stream(Sse sse, SseEventSink sink) throws JsonProcessingException {
-    logger.info("Starting streaming (classic)");
-
-    SseBroadcaster broadcaster = sse.newBroadcaster();
-    broadcaster.register(sink);
-
-    ObjectMapper jsonMapper = new ObjectMapper();
-    for (int i = 0; i < 50; i++) {
-      logger.info("Sending event (classic)");
-      var fortune = client.fetchFortune();
-      var json = jsonMapper.writeValueAsString(fortune);
-      broadcaster.broadcast(sse.newEvent(json));
-    }
-
-    broadcaster.close();
-    logger.info("Stopped streaming (classic)");
-  }
+//  @GET
+//  @Path("/stream")
+//  @Produces(MediaType.SERVER_SENT_EVENTS)
+//  public void stream(Sse sse, SseEventSink sink) throws JsonProcessingException {
+//    logger.info("Starting streaming (classic)");
+//
+//    SseBroadcaster broadcaster = sse.newBroadcaster();
+//    broadcaster.register(sink);
+//
+//    ObjectMapper jsonMapper = new ObjectMapper();
+//    for (int i = 0; i < 50; i++) {
+//      logger.info("Sending event (classic)");
+//      var fortune = client.fetchFortune();
+//      var json = jsonMapper.writeValueAsString(fortune);
+//      broadcaster.broadcast(sse.newEvent(json));
+//    }
+//
+//    broadcaster.close();
+//    logger.info("Stopped streaming (classic)");
+//  }
 }
