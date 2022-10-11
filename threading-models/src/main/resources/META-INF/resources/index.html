@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Streams everywhere</title>
+  <style>
+    body {
+      padding: 4em;
+    }
+    p {
+      margin-bottom: 3em;
+      font-family: "Red Hat Display", sans-serif;
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="main">
+
+</div>
+
+<script>
+
+  document.addEventListener("DOMContentLoaded", ready => {
+
+    const mainDiv = document.getElementById("main");
+    const source = new EventSource("/classic/stream");
+
+    source.onmessage = event => {
+      const p = document.createElement("p");
+      var data = JSON.parse(event.data);
+      p.innerText = `[${data.index}] ${data.text}`;
+      mainDiv.prepend(p);
+    };
+
+  });
+
+</script>
+
+</body>
+</html>
