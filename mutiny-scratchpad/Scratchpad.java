@@ -3,6 +3,7 @@
 
 import java.io.IOException;
 import java.time.Duration;
+
 import io.smallrye.mutiny.Multi;
 
 public class Scratchpad {
@@ -20,13 +21,13 @@ public class Scratchpad {
     });
 
     stream
-        .onItem().transform(n -> "[" + n + "]")
-        .onFailure(IOException.class).retry().atMost(5)
-        .ifNoItem().after(Duration.ofSeconds(5)).fail()
-        .subscribe().with(
-            item -> System.out.println(">>> " + item),
-            Throwable::printStackTrace,
-            () -> System.out.println("Done"));
+      .onItem().transform(n -> "[" + n + "]")
+      .onFailure(IOException.class).retry().atMost(5)
+      .ifNoItem().after(Duration.ofSeconds(5)).fail()
+      .subscribe().with(
+        item -> System.out.println(">>> " + item),
+        Throwable::printStackTrace,
+        () -> System.out.println("Done"));
 
   }
 }

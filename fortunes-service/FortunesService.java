@@ -25,10 +25,10 @@ public class FortunesService {
 
     // Vert.x server
     vertx.createHttpServer()
-        .requestHandler(FortunesService::handleRequest)
-        .listen(3000)
-        .onSuccess(ok -> System.out.println("✅ Ready"))
-        .onFailure(Throwable::printStackTrace);
+      .requestHandler(FortunesService::handleRequest)
+      .listen(3000)
+      .onSuccess(ok -> System.out.println("✅ Ready"))
+      .onFailure(Throwable::printStackTrace);
   }
 
   static void handleRequest(HttpServerRequest req) {
@@ -40,8 +40,8 @@ public class FortunesService {
     System.out.println("[" + threadName + "] serving fortune #" + index);
 
     req.response()
-        .putHeader("Content-Type", "text/plain")
-        .putHeader("Fortune-Index", String.valueOf(index))
-        .end(fortune);
+      .putHeader("Content-Type", "text/plain")
+      .putHeader("Fortune-Index", String.valueOf(index))
+      .end(fortune);
   }
 }
